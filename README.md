@@ -10,14 +10,14 @@ catkin config --extend /opt/ros/noetic ## or /opt/ros/melodic depending on the v
 
 # clone 
 cd src
-git clone git@gitlab.ethz.ch:3dv-semantic-slam/orb-slam3-wrapper.git
+git clone https://github.com/daBaret/orbslam3_wrapper_ros.git
 
 # modify CMakeList by putting the correct path to the ORB_SLAM3 installation
 vim orb-slam3-wrapper/CMakeLists.txt 
 # Modify this part
 # set(ORB_SLAM3_DIR
-#    $ENV{HOME}/catkin_workspaces/3D_vision/src/orb-slam3
-# )
+#    $ENV{HOME}/ros/orbslam3_ws/orb-slam3
+#)
 
 # Build the package
 catkin build orb_slam3_wrapper
