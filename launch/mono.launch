@@ -1,0 +1,25 @@
+<launch>
+    <arg name="map_frame" default="world" />
+    <arg name="pose_frame" default="head_camera" />
+    <arg name="camera_config" default="$(find orb_slam3_wrapper)/config/camera.yaml"/>
+
+    <node name="orb_slam3_mono" pkg="orb_slam3_wrapper" type="orb_slam3_wrapper_mono" output="screen">
+        <!-- Parameters for original ORB-SLAM3 -->
+        <param name="voc_file" type="string" value="$(find orb_slam3_wrapper)/config/ORBvoc.txt" />
+        <param name="settings_file" type="string" value="$(arg camera_config)" />
+
+        <!-- Parameters for ROS -->
+        <param name="map_frame_id" type="string" value="$(arg map_frame)" />
+        <param name="pose_frame_id" type="string" value="$(arg pose_frame)" />
+    </node>
+
+    <!-- Visualization - RViz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_wrapper)/config/orb_slam3.rviz" output="screen" />
+
+    <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_orb_slam3" output="screen" ns="orb_slam3_ros">
+        <param name="/target_frame_name" value="$(arg map_frame)" />
+        <param name="/source_frame_name" value="$(arg pose_frame)" />
+        <param name="/trajectory_update_rate" value="20.0" />
+        <param name="/trajectory_publish_rate" value="20.0" />
+    </node>
+</launch>
